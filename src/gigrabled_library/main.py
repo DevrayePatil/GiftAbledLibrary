@@ -7,6 +7,10 @@ class Book:
     def get_copies(self):
         return self.__copies
 
+    def add_copy(self, copies):
+        self.__copies += copies
+        return f"One copy of '{self.title}' has been added. Total copies: {self.__copies}"
+
     def borrow(self):
         if self.__copies > 0:
             self.__copies -= 1
@@ -19,11 +23,18 @@ class Book:
         self.__copies += 1
         return f"'{self.title}' has been returned. Total copies: {self.__copies}"
 
+    
+
+
 class Library:
     def __init__(self):
         self.books = []
 
     def add_book(self, book):
+        for b in self.books:
+            if book.title == b.title:
+                b.add_copy(book.get_copies())
+                return
         self.books.append(book)
 
     def borrow_book(self, title):
@@ -53,8 +64,12 @@ library = Library()
 library.add_book(b1)
 library.add_book(b2)
 library.add_book(b3)
+library.add_book(b3)
+
 
 library.show_all_books()
 
 library.borrow_book("Clean Code")
 library.borrow_book("Clean Code")
+
+library.show_all_books()
